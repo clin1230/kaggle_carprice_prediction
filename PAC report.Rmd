@@ -5,22 +5,8 @@ name: "Charlotte Lin"
 date: "2023-12-07"
 ---
 
-For this Kaggle competition, we got a dataset of 40000 used cars and need to predict the used cars price by using some of these 46 variables. 
 
-There are three parts in my report: 
-(1) Exploring the data (EDA)
-(2) Preparing the data (Data cleaning)
-(3) Analysis technique (Feature selection, Model Selection)
-
-#Exploring the data/ Preparing the data
-
-My first step was to load data and libraries, and then I started to explore data structure using the str function. In my first attempt (d), I only selected numerical variables and tried to calculate a new variable, "total_volume," by combining height, weight, and length. However, the result didn't turn out well.
-
-In my other attempt (cdata), I started to add some numerical variables. I extracted the first three characters of the "torque" variable and created a new variable, "torque_n," which means number only. Also, I converted some categorical variables to numerical, such as "is_new," "make_name," and "listing_color." I think these elements are essential when predicting a used car's price.
-
-When exploring the data, I noticed several NAs in the dataset. My first instinct was to remove all NAs, but since there were too many, it influenced the accuracy of our future prediction. So, after a couple of tries, I decided to replace missing values with the median for selected variables.
-
-Before selecting which variables to use, I visualized the data using ggplot2, trying to find the relationship between variables. I also used corrplot and cor function to do correlation analysis.
+#Exploring the data (EDA) / Preparing the data (Data cleaning)
 
 ```{r}
 getwd()
@@ -81,11 +67,7 @@ carr<- cdata%>%
 
 ```
 
-#Analysis technique
-
-The first step was doing data splitting. I split the data into training and test sets based on the price variable, with 80% of the data assigned to the training set (train) and 20% to the test set (test). Then I performed subset selection using the regsubsets function, considering up to 21 variables in the linear regression model, and created a data frame (subsets_measures) with measures such as Cp, BIC, and adjusted R-squared for each model in the subset selection process. Besides, I also did backward stepwise regression, eliminating variables from the model based on minimizing the AIC until the optimal model is reached.
-
-For the model selection process, I've tried various models, but the most successful one for me is the XGBoost model. The code defined features and the target variable (price), converted training and test data into XGBoost DMatrix format and then built an XGBoost model with 2000 rounds and verbose output for effective car price prediction. I also experimented with rounds number, trying different combinations for a better outcome.
+ #Analysis technique (Feature selection, Model Selection)
 
 ```{r}
 
@@ -202,10 +184,6 @@ rmse_test = sqrt(mean((predt-test$price)^2));
 rmse_test #rsme_test=7817.461 (model1 test)
 
 ```
-
-#Scoring Data
-
-I applied the same data cleaning process on Scoring Data, making sure the variables were aligned, and then I started to make predictions using the pre-trained model. Last, I created submission files with predicted prices and corresponding IDs from the scoring dataset, wrote them to a CSV file and submitted.
 
 ```{r}
 
